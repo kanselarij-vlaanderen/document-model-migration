@@ -1,0 +1,63 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+PREFIX besluitvorming: <http://data.vlaanderen.be/ns/besluitvorming#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX dossier: <https://data.vlaanderen.be/ns/dossier#>
+
+DELETE {
+  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+    ?doc a foaf:Document .
+    ?ver a ext:DocumentVersie .
+    
+    ?doc besluitvorming:heeftVersie ?ver .
+    
+    ?doc besluitvorming:gearchiveerd ?arch ;
+      dct:title ?title ;
+      ext:omschrijving ?descr ;
+      ext:vertrouwelijk ?conf ;
+      besluitvorming:stuknummerVP ?stuknummerVP ;
+      besluitvorming:stuknummerVR ?docStuknummerVR ;
+      ext:stuknummerVROriginal ?stuknummerVROriginal ;
+      ext:freezeAccessLevel ?freezeAl ;
+      ext:toegangsniveauVoorDocument ?docAl .
+      
+    ?ver ext:gekozenDocumentNaam ?gekozenDocumentNaam ;
+      besluitvorming:stuknummerVR ?verStuknummerVR ;
+      ext:versieNummer ?num .
+    
+  }
+}
+INSERT {
+  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+    ?doc a dossier:Serie .
+    ?ver a dossier:Stuk .
+    ?doc dossier:collectie.bestaatUit ?ver .
+
+  }
+}
+WHERE {
+  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+    ?doc a foaf:Document .
+    ?ver a ext:DocumentVersie .
+    
+    ?doc besluitvorming:heeftVersie ?ver .
+
+    OPTIONAL { ?doc besluitvorming:gearchiveerd ?arch . }
+    OPTIONAL { ?doc dct:title ?title . }
+    OPTIONAL { ?doc ext:omschrijving ?descr . }
+    OPTIONAL { ?doc ext:vertrouwelijk ?conf . }
+    OPTIONAL { ?doc besluitvorming:stuknummerVP ?stuknummerVP . }
+    OPTIONAL { ?doc besluitvorming:stuknummerVR ?docStuknummerVR . }
+    OPTIONAL { ?doc ext:stuknummerVROriginal ?stuknummerVROriginal . }
+    OPTIONAL { ?doc ext:freezeAccessLevel ?freezeAl . }
+    OPTIONAL { ?doc ext:toegangsniveauVoorDocument ?docAl . }
+      
+    OPTIONAL { ?ver ext:gekozenDocumentNaam ?gekozenDocumentNaam . }
+    OPTIONAL { ?ver besluitvorming:stuknummerVR ?verStuknummerVR . }
+    OPTIONAL { ?ver ext:versieNummer ?num . }
+
+    VALUES ?doc {
+      # DOC_URIS_PLACEHOLDER
+    }
+  }
+}

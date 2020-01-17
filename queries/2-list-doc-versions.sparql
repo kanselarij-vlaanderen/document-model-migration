@@ -1,0 +1,21 @@
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ext: <http://mu.semte.ch/vocabularies/ext/>
+PREFIX besluitvorming: <http://data.vlaanderen.be/ns/besluitvorming#>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT ?doc ?stuknummerVR ?title ?ver ?num
+FROM <http://mu.semte.ch/graphs/organizations/kanselarij>
+WHERE {
+  ?doc a foaf:Document ;
+    besluitvorming:heeftVersie ?ver .
+    OPTIONAL { ?doc besluitvorming:stuknummerVR ?stuknummerVR . }
+    OPTIONAL { ?doc dct:title ?title . }
+  ?ver a ext:DocumentVersie ;
+    ext:versieNummer ?num .
+  
+  VALUES ?doc {
+    # DOC_URIS_PLACEHOLDER
+  }
+}
+GROUP BY ?doc ?ver
+ORDER BY ?doc ?ver ?num
