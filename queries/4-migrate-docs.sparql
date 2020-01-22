@@ -19,7 +19,8 @@ DELETE {
       besluitvorming:stuknummerVR ?docStuknummerVR ;
       ext:stuknummerVROriginal ?stuknummerVROriginal ;
       ext:freezeAccessLevel ?freezeAl ;
-      ext:toegangsniveauVoorDocument ?docAl .
+      ext:toegangsniveauVoorDocument ?docAl ;
+      ext:voorKabinetten ?forCab .
       
     ?ver ext:gekozenDocumentNaam ?gekozenDocumentNaam ;
       besluitvorming:stuknummerVR ?verStuknummerVR ;
@@ -51,6 +52,7 @@ WHERE {
     OPTIONAL { ?doc ext:stuknummerVROriginal ?stuknummerVROriginal . }
     OPTIONAL { ?doc ext:freezeAccessLevel ?freezeAl . }
     OPTIONAL { ?doc ext:toegangsniveauVoorDocument ?docAl . }
+    OPTIONAL { ?doc ext:voorKabinetten ?forCab . }
       
     OPTIONAL { ?ver ext:gekozenDocumentNaam ?gekozenDocumentNaam . }
     OPTIONAL { ?ver besluitvorming:stuknummerVR ?verStuknummerVR . }
