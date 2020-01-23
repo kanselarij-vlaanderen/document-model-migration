@@ -17,5 +17,4 @@ WHERE {
     # DOC_URIS_PLACEHOLDER
   }
 }
-GROUP BY ?doc ?ver
-ORDER BY ?doc ?ver ?num
+ORDER BY ?doc ?num
