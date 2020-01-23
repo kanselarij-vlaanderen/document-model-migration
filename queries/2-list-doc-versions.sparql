@@ -11,10 +11,12 @@ WHERE {
     OPTIONAL { ?doc besluitvorming:stuknummerVR ?stuknummerVR . }
     OPTIONAL { ?doc dct:title ?title . }
   ?ver a ext:DocumentVersie ;
-    ext:versieNummer ?num .
+    ext:versieNummer ?num ;
+    ext:file ?file .
+  OPTIONAL { ?file dct:created ?created . }
   
   VALUES ?doc {
     # DOC_URIS_PLACEHOLDER
   }
 }
-ORDER BY ?doc ?num
+ORDER BY ?doc ?num ?created
