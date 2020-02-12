@@ -15,13 +15,21 @@ LATIN_ADVERBIAL_NUMERALS = {
     7: 'SEPTIES',
     8: 'OCTIES',
     9: 'NOVIES'
- }
+}
 
-def run_batch(batch_size, batch_number):
+GRAPHS = [
+    'http://mu.semte.ch/graphs/organizations/kanselarij',
+    'http://mu.semte.ch/graphs/organizations/minister',
+    'http://mu.semte.ch/graphs/organizations/intern-regering',
+    'http://mu.semte.ch/graphs/organizations/intern-overheid',
+    'http://mu.semte.ch/graphs/public'
+]
 
-    documents = list(map(lambda res: res['doc']['value'], list(helpers.query(construct_select_docs_query(batch_size, batch_number))['results']['bindings'])))
+def run_batch(batch_size, graph):
 
-    res = helpers.query(construct_list_doc_versions_query(documents))['results']['bindings']
+    documents = list(map(lambda res: res['doc']['value'], list(helpers.query(construct_select_docs_query(batch_size, graph))['results']['bindings'])))
+
+    res = helpers.query(construct_list_doc_versions_query(documents, graph))['results']['bindings']
     print(res)
 
     res_by_doc = itertools.groupby(res, lambda res: res['doc']['value'])
@@ -48,19 +56,20 @@ def run_batch(batch_size, batch_number):
                     escape_helpers.sparql_escape_uri(results[i-1]['ver']['value']),
                 ))
     if triples:
-        query = construct_insert_triples(triples)
+        query = construct_insert_triples(triples, graph)
         print('constructed query\n' + query)
         res = helpers.update(query)
 
-    query = construct_migrate_docs(documents)
+    query = construct_migrate_docs(documents, graph)
     print('constructed query\n' + query)
     res = helpers.update(query)
-    
+
     return documents
 
-BATCH_SIZE = 75
-batch_number = 0
-while True:
-    docs = run_batch(BATCH_SIZE, batch_number)
-    if len(docs) < BATCH_SIZE:
-        break
+BATCH_SIZE = int(os.getenv('BATCH_SIZE', '75'))
+
+for graph in GRAPHS:
+    while True:
+        docs = run_batch(BATCH_SIZE, graph)
+        if len(docs) < BATCH_SIZE:
+            break

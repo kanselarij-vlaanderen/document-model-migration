@@ -5,7 +5,7 @@ PREFIX dct: <http://purl.org/dc/terms/>
 PREFIX dossier: <https://data.vlaanderen.be/ns/dossier#>
 
 DELETE {
-  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+  GRAPH # GRAPH_PLACEHOLDER {
     ?doc a foaf:Document .
     ?ver a ext:DocumentVersie .
     
@@ -29,7 +29,7 @@ DELETE {
   }
 }
 INSERT {
-  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+  GRAPH # GRAPH_PLACEHOLDER {
     ?doc a dossier:Serie .
     ?ver a dossier:Stuk .
     ?doc dossier:collectie.bestaatUit ?ver .
@@ -37,7 +37,7 @@ INSERT {
   }
 }
 WHERE {
-  GRAPH <http://mu.semte.ch/graphs/organizations/kanselarij> {
+  GRAPH # GRAPH_PLACEHOLDER {
     ?doc a foaf:Document .
     ?ver a ext:DocumentVersie .
     

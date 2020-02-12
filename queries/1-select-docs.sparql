@@ -1,10 +1,9 @@
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 
 SELECT ?doc
-FROM <http://mu.semte.ch/graphs/organizations/kanselarij>
+FROM # GRAPH_PLACEHOLDER
 WHERE {
   ?doc a foaf:Document .
 }
 ORDER BY ?doc
 LIMIT # LIMIT_PLACEHOLDER
-OFFSET # OFFSET_PLACEHOLDER
