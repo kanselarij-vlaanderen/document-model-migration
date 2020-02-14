@@ -30,7 +30,6 @@ def run_batch(batch_size, graph):
     documents = list(map(lambda res: res['doc']['value'], list(helpers.query(construct_select_docs_query(batch_size, graph))['results']['bindings'])))
 
     res = helpers.query(construct_list_doc_versions_query(documents, graph))['results']['bindings']
-    print(res)
 
     res_by_doc = itertools.groupby(res, lambda res: res['doc']['value'])
 
@@ -57,11 +56,9 @@ def run_batch(batch_size, graph):
                 ))
     if triples:
         query = construct_insert_triples(triples, graph)
-        print('constructed query\n' + query)
         res = helpers.update(query)
 
     query = construct_migrate_docs(documents, graph)
-    print('constructed query\n' + query)
     res = helpers.update(query)
 
     return documents
@@ -69,7 +66,9 @@ def run_batch(batch_size, graph):
 BATCH_SIZE = int(os.getenv('BATCH_SIZE', '75'))
 
 for graph in GRAPHS:
+    print('Running migrations for graph <{}>'.format(graph))
     while True:
         docs = run_batch(BATCH_SIZE, graph)
         if len(docs) < BATCH_SIZE:
             break
+print('Done running migrations!')
